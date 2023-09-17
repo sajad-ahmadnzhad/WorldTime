@@ -9,6 +9,8 @@
 <li>The time zone must be entered like this: "Asia Tehran or Africa Algiers or America Adak or America Indiana Marengo"</li>
 <hr/>
 
+<h1>⚠️The robot is not currently deployed on a server. Once it is deployed, an announcement will be made.</h1>
+
 <h1>How does this robot work?</h1>
 
 <img src="https://github.com/sajad-ahmadnzhad/WorldTime/blob/master/img/startBot.jpg?raw=true"/>
