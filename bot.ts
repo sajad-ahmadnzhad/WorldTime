@@ -1,13 +1,13 @@
-let telegramBot = require("node-telegram-bot-api");
+import TelegramBot from 'node-telegram-bot-api'
 require('dotenv').config()
-let token = process.env.BOT_TOKEN;
+let token = process.env.BOT_TOKEN as string
 
-let bot = new telegramBot( token, {polling: true });
+let bot = new TelegramBot( token, {polling: true });
 
 
-bot.onText(/\/start/, async (msg: typeof bot) => {
-  let id = msg.from.id;
-    let message = `hello ${msg.from.first_name} welcome to bot World Time
+bot.onText(/\/start/, async (msg) => {
+  let id = msg.from?.id
+    let message = `hello ${msg.from?.first_name} welcome to bot World Time
     
 This robot helps you to get world clock statistics
 
@@ -20,33 +20,18 @@ For example: "Asia Tehran or Africa Algiers or America Adak or America Indiana M
 Otherwise, the robot will not return a message to you
     `
 
-    await bot.sendChatAction(id, "typing");
-    bot.sendMessage(id, message);
+    await bot.sendChatAction(id as number, "typing");
+    bot.sendMessage(id as number, message);
 });
 
-bot.on("message", (msg: typeof bot) => {
-  let id = msg.from.id;
+bot.on("message", (msg) => {
+  let id = msg.from?.id
   if (msg.text == "/start") return;
 
-    let message = new MessageText(id , msg.text)
+    let message = new MessageText(id as number , msg.text as string)
     message.desplayMessage()
     
 });
-
-interface ResponseData {
-    abbreviation?: string
-    client_ip?: string
-    datetime?: string
-    day_of_week?: number
-    day_of_year?: number
-    raw_offset?: number
-    timezone?: string
-    unixtime?: number
-    utc_datetime?: string
-    utc_offset?: string
-    week_number?: string
-    error?: string
-}
 
 class MessageText {
   constructor(protected senderId: number, protected content: string) {}
@@ -55,10 +40,10 @@ class MessageText {
       let splitData = this.content.split(' ')
       let sliceData = splitData.slice(1)
      await bot.sendChatAction(this.senderId , 'typing')
-      let response: ResponseData = {}
+     let response;
      try {
-      response = await (await fetch(`http://worldtimeapi.org/api/timezone/${splitData[0]}/${sliceData}`)).json()
-     } catch (error) {
+     response = await (await fetch(`http://worldtimeapi.org/api/timezone/${splitData[0]}/${sliceData}`)).json()
+    } catch (error) {
       bot.sendMessage(this.senderId , 'The server encountered a problem, please try again')
      }
      
